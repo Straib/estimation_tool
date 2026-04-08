@@ -364,7 +364,11 @@ class _SessionPageState extends State<SessionPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 20),
-                  ConsensusDisplay(),
+                  ConsensusDisplay(
+                    votes: session.votes,
+                    showVotes: session.status == SessionStatus.revealed,
+                    userCount: session.users.length,
+                  ),
                   const SizedBox(height: 20),
                   Text(
                     'Your vote',
@@ -397,7 +401,7 @@ class _SessionPageState extends State<SessionPage> {
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(flex: 2, child: votePanel),
+                  Expanded(flex: 3, child: votePanel),
                   const SizedBox(width: 20),
                   Expanded(flex: 1, child: UserList(session: session)),
                 ],

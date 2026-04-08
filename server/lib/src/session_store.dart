@@ -10,9 +10,8 @@ const Set<String> _storyPoints = <String>{
   '5',
   '8',
   '13',
-  '20',
-  '40',
-  '100',
+  '21',
+  '☕',
 };
 
 class SessionStore {

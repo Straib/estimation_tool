@@ -6,9 +6,8 @@ enum StoryPoint {
 	five('5'),
 	eight('8'),
 	thirteen('13'),
-	twenty('20'),
-	forty('40'),
-	oneHundred('100');
+	twentyOne('21'),
+	coffee('☕');
 
 	const StoryPoint(this.label);
 

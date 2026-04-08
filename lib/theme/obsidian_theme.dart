@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:estimation_tool/theme/obsidian_tokens.dart';
 
 class ObsidianTheme {
   static const Color surface = Color(0xFF0B1326);
@@ -30,6 +31,9 @@ class ObsidianTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
+      extensions: const <ThemeExtension<dynamic>>[
+        ObsidianTokens.dark,
+      ],
       scaffoldBackgroundColor: surface,
       colorScheme: const ColorScheme.dark(
         surface: surface,
