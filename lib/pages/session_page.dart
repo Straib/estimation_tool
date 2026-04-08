@@ -266,6 +266,18 @@ class _SessionPageState extends State<SessionPage> {
       return;
     }
 
+    if (status == SessionStatus.voting) {
+
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('New voting round started.')),
+      );
+    } else if (status == SessionStatus.revealed) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Results revealed.')));
+    }
+
     if (result.isSuccess) {
       setState(() {
         _session = result.data;
@@ -363,7 +375,6 @@ class _SessionPageState extends State<SessionPage> {
               final votePanel = Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 20),
                   ConsensusDisplay(
                     votes: session.votes,
                     showVotes: session.status == SessionStatus.revealed,

@@ -117,6 +117,12 @@ class SessionStore {
     }
 
     session.status = status.first;
+
+    // Starting a new voting round resets all previous votes.
+    if (session.status == SessionStatus.voting) {
+      session.votes.clear();
+    }
+
     return session.toJson();
   }
 }
