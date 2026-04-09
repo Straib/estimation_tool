@@ -165,6 +165,7 @@ class _SessionPageState extends State<SessionPage> {
 
   void _openNewUserPopup() {
     showDialog<void>(
+      barrierDismissible: false,
       context: context,
       builder:
           (BuildContext context) => NewUserPopup(

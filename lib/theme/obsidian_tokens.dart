@@ -10,6 +10,8 @@ class ObsidianTokens extends ThemeExtension<ObsidianTokens> {
     required this.chartBar,
     required this.chartBarTouched,
     required this.accentWarm,
+    required this.onSurfaceVariant,
+    required this.outlineVariant,
   });
 
   final Color surfacePanel;
@@ -19,6 +21,8 @@ class ObsidianTokens extends ThemeExtension<ObsidianTokens> {
   final Color chartBar;
   final Color chartBarTouched;
   final Color accentWarm;
+  final Color onSurfaceVariant;
+  final Color outlineVariant;
 
   static const ObsidianTokens dark = ObsidianTokens(
     surfacePanel: Color(0xFF131B2E),
@@ -28,6 +32,9 @@ class ObsidianTokens extends ThemeExtension<ObsidianTokens> {
     chartBar: Color(0xFF8083FF),
     chartBarTouched: Color(0xFFC0C1FF),
     accentWarm: Color(0xFFFFB783),
+    onSurfaceVariant: Color(0xFFB0B0B0),
+    outlineVariant: Color(0xFF888888),
+
   );
 
   @override
@@ -39,6 +46,8 @@ class ObsidianTokens extends ThemeExtension<ObsidianTokens> {
     Color? chartBar,
     Color? chartBarTouched,
     Color? accentWarm,
+    Color? onSurfaceVariant,
+    Color? outlineVariant,
   }) {
     return ObsidianTokens(
       surfacePanel: surfacePanel ?? this.surfacePanel,
@@ -48,6 +57,8 @@ class ObsidianTokens extends ThemeExtension<ObsidianTokens> {
       chartBar: chartBar ?? this.chartBar,
       chartBarTouched: chartBarTouched ?? this.chartBarTouched,
       accentWarm: accentWarm ?? this.accentWarm,
+      onSurfaceVariant: onSurfaceVariant ?? this.onSurfaceVariant,
+      outlineVariant: outlineVariant ?? this.outlineVariant,
     );
   }
 
@@ -68,6 +79,8 @@ class ObsidianTokens extends ThemeExtension<ObsidianTokens> {
       chartBar: Color.lerp(chartBar, other.chartBar, t) ?? chartBar,
       chartBarTouched: Color.lerp(chartBarTouched, other.chartBarTouched, t) ?? chartBarTouched,
       accentWarm: Color.lerp(accentWarm, other.accentWarm, t) ?? accentWarm,
+      onSurfaceVariant: Color.lerp(onSurfaceVariant, other.onSurfaceVariant, t) ?? onSurfaceVariant,
+      outlineVariant: Color.lerp(outlineVariant, other.outlineVariant, t) ?? outlineVariant,
     );
   }
 }

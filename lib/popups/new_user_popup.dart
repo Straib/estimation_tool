@@ -1,3 +1,5 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:estimation_tool/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:estimation_tool/services/session_page_service.dart';
 
@@ -30,10 +32,51 @@ class _NewUserPopupState extends State<NewUserPopup> {
     super.dispose();
   }
 
+  void _joinSession() {
+    final name = _nameController.text.trim();
+    if (name.isEmpty) {
+      setState(() {
+        _error = 'Name is required.';
+      });
+      return;
+    }
+
+    setState(() {
+      _isSubmitting = true;
+      _error = null;
+    });
+
+    widget.sessionService.ensureUser(
+      sessionId: widget.sessionId,
+      name: name,
+    ).then((result) {
+      if (!context.mounted) {
+        return;
+      }
+
+      if (!mounted) {
+        return;
+      }
+
+      if (result.isSuccess) {
+        widget.onEnsured?.call(result.data!);
+        Navigator.of(context).pop();
+        return;
+      }
+
+      final message = result.error ?? 'Could not set current user.';
+      widget.onError?.call(message);
+      setState(() {
+        _error = message;
+        _isSubmitting = false;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('New User'),
+      title: const Text('Join Estimation Session as:'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -41,7 +84,13 @@ class _NewUserPopupState extends State<NewUserPopup> {
             controller: _nameController,
             autofocus: true,
             enabled: !_isSubmitting,
-            decoration: const InputDecoration(hintText: 'Name'),
+            decoration: const InputDecoration(hintText: 'John Estimation'),
+            onSubmitted: (_) {
+              if (!_isSubmitting) {
+                FocusScope.of(context).unfocus();
+                _joinSession();
+              }
+            },
           ),
           if (_error != null) ...[
             const SizedBox(height: 8),
@@ -57,9 +106,9 @@ class _NewUserPopupState extends State<NewUserPopup> {
           onPressed: _isSubmitting
               ? null
               : () {
-            Navigator.of(context).pop();
+                  context.router.replaceAll([const CreateSessionRoute()]);
           },
-          child: const Text('Cancel'),
+          child: const Text('Leave'),
         ),
         TextButton(
           onPressed: _isSubmitting
@@ -78,29 +127,9 @@ class _NewUserPopupState extends State<NewUserPopup> {
               _error = null;
             });
 
-            final result = await widget.sessionService.ensureUser(
-              sessionId: widget.sessionId,
-              name: name,
-            );
-
-            if (!context.mounted) {
-              return;
-            }
-
-            if (result.isSuccess) {
-              widget.onEnsured?.call(result.data!);
-              Navigator.of(context).pop();
-              return;
-            }
-
-            final message = result.error ?? 'Could not set current user.';
-            widget.onError?.call(message);
-            setState(() {
-              _error = message;
-              _isSubmitting = false;
-            });
+            _joinSession();
           },
-          child: const Text('Add'),
+          child: const Text('Join'),
         ),
       ],
     );

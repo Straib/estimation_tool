@@ -24,47 +24,35 @@ class UserVoteTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 8),
-            if (currentUser == null)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('Set your name before voting.'),
-                  const SizedBox(height: 8),
-                  TextButton(
-                    onPressed: isMutating ? null : openNewUserPopup,
-                    child: const Text('Set my user'),
-                  ),
-                ],
-              )
-            else
-              Text(user.name, style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: 8),
-            Text('Vote: ${vote?.storyPoint.label ?? '-'}'),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children:
-                  StoryPoint.values
-                      .map(
-                        (point) => OutlinedButton(
-                          onPressed: isDisabled ? null : () => onVote(point),
-                          child: Text(point.label),
+    return Wrap(
+      spacing: 20,
+      runSpacing: 20,
+      children:
+          StoryPoint.values
+              .map(
+                (point) => InkWell(
+                  onTap: isDisabled ? null : () => onVote(point),
+                  child: SizedBox(
+                    width: 200,
+                    height: 300,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Text(
+                            point.label,
+                            style: Theme.of(context).textTheme.displayLarge,
+                          ),
                         ),
-                      )
-                      .toList(),
-            ),
-          ],
-        ),
-      ),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+              .toList(),
     );
   }
 }

@@ -3,7 +3,7 @@ import 'dart:math';
 enum SessionStatus { setup, voting, revealed, closed }
 
 const Set<String> _storyPoints = <String>{
-  '?',
+  '0',
   '1',
   '2',
   '3',
@@ -11,6 +11,7 @@ const Set<String> _storyPoints = <String>{
   '8',
   '13',
   '21',
+  '?',
   '☕',
 };
 
