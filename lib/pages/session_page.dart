@@ -268,8 +268,6 @@ class _SessionPageState extends State<SessionPage> {
     }
 
     if (status == SessionStatus.voting) {
-
-
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('New voting round started.')),
       );
@@ -341,18 +339,16 @@ class _SessionPageState extends State<SessionPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Session: ${session.title} (${widget.sessionId})'),
+        title: Text('Session: ${session.title}'),
         actions: [
           Text('Status: ${session.status.name}'),
           const SizedBox(width: 12),
           ElevatedButton(
             onPressed:
-                _isMutating
-                    ? null
-                    : () =>
-                        session.status == SessionStatus.revealed
-                            ? _updateStatus(SessionStatus.voting)
-                            : _updateStatus(SessionStatus.revealed),
+                () =>
+                    session.status == SessionStatus.revealed
+                        ? _updateStatus(SessionStatus.voting)
+                        : _updateStatus(SessionStatus.revealed),
             child:
                 session.status == SessionStatus.revealed
                     ? const Text('START NEW VOTING')
@@ -386,7 +382,7 @@ class _SessionPageState extends State<SessionPage> {
                     'Your vote',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 20),
                   UserVoteTile(
                     user: currentUser ?? User(id: '', name: 'Unknown'),
                     vote: session.voteForUser(currentUser?.id ?? ''),

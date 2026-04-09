@@ -121,32 +121,81 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      'Session',
-                      style: Theme.of(context).textTheme.headlineMedium,
+                      'Join Session',
+                      style: Theme.of(context).textTheme.bodyLarge,
                       textAlign: TextAlign.left,
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 5),
                     TextField(
                       controller: _sessionIdController,
                       enabled: !_isLoading,
-                      decoration: const InputDecoration(
-                        labelText: 'Session ID',
+                      onSubmitted: (_) {
+                        if (!_isLoading) {
+                          FocusScope.of(context).unfocus();
+                          _joinSession();
+                        }
+                      },
+                      decoration: InputDecoration(
+                        labelStyle: TextStyle(
+                          fontSize: 20,
+                          color: Theme.of(context).colorScheme.secondaryContainer,
+                        ),
+                        labelText: 'session-1775767164043997-xxxxxx',
                         hintText: 'Enter session ID to join',
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 10),
                     DecoratedBox(
                       decoration: ObsidianTheme.ctaGradient(),
                       child: SizedBox(
                         height: 64,
                         child: ElevatedButton(
                           onPressed: _isLoading ? null : _joinSession,
-                          child: const Text('Join existing session ->'),
+                          child: const Text(
+                            'Join existing session ->',
+                            style: TextStyle(fontSize: 16),
+                          ),
                         ),
                       ),
                     ),
+                    const SizedBox(height: 40),
+                    Text(
+                      '----- OR -----',
+                      style: ThemeData.dark().textTheme.bodySmall?.copyWith(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurfaceVariant.withAlpha(150),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 30),
+                    Text(
+                      'Create new session',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                      textAlign: TextAlign.left,
+                    ),
+                    const SizedBox(height: 5),
 
-                    const SizedBox(height: 20),
+                    TextField(
+                      controller: _sessionTitleController,
+                      enabled: !_isLoading,
+                      onSubmitted: (_) {
+                        if (!_isLoading) {
+                          FocusScope.of(context).unfocus();
+                          _createSession();
+                        }
+                      },
+                      decoration: InputDecoration(
+                        labelStyle: TextStyle(
+                          fontSize: 20,
+                          color: Theme.of(context).colorScheme.secondaryContainer,
+                        ),
+                        labelText: 'Sprint Planning - June 2070',
+                        hintText:
+                            'Enter session title (e.g. "Sprint Planning - June 2024")',
+                      ),
+                    ),
+                    const SizedBox(height: 10),
                     DecoratedBox(
                       decoration: ObsidianTheme.ctaGradient(),
                       child: SizedBox(
@@ -154,7 +203,7 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
                         child: ElevatedButton(
                           onPressed: _isLoading ? null : _createSession,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: context.obsidianTokens.onSurfaceVariant,
+                            backgroundColor: Colors.transparent,
                             shadowColor: Colors.transparent,
                           ),
                           child: Row(
@@ -162,7 +211,10 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
                             children: [
                               const Icon(Icons.add_circle, size: 16),
                               const SizedBox(width: 4),
-                              const Text('Create session'),
+                              const Text(
+                                'Create session',
+                                style: TextStyle(fontSize: 16),
+                              ),
                             ],
                           ),
                         ),

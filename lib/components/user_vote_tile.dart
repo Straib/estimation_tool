@@ -31,11 +31,15 @@ class UserVoteTile extends StatelessWidget {
           StoryPoint.values
               .map(
                 (point) => InkWell(
+                  borderRadius: BorderRadius.circular(8),
                   onTap: isDisabled ? null : () => onVote(point),
                   child: SizedBox(
                     width: 200,
                     height: 300,
                     child: Card(
+                      color: vote?.storyPoint == point
+                          ? Theme.of(context).colorScheme.primary
+                          : null,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -44,7 +48,11 @@ class UserVoteTile extends StatelessWidget {
                         child: Center(
                           child: Text(
                             point.label,
-                            style: Theme.of(context).textTheme.displayLarge,
+                            style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                              color: vote?.storyPoint == point
+                                  ? Theme.of(context).colorScheme.onPrimary
+                                  : null,
+                            ),
                           ),
                         ),
                       ),
