@@ -4,7 +4,6 @@ import 'package:estimation_tool/routes/routes.dart';
 import 'package:estimation_tool/services/session_api.dart';
 import 'package:estimation_tool/theme/obsidian_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:estimation_tool/theme/obsidian_tokens.dart';
 
 @RoutePage()
 class CreateSessionPage extends StatefulWidget {
