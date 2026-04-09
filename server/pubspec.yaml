@@ -2,6 +2,7 @@ name: estimation_tool_server
 description: Session backend for the estimation tool.
 publish_to: none
 version: 0.1.0
+uses-material-design: true
 
 environment:
   sdk: ^3.7.2
