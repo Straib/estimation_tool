@@ -189,7 +189,7 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
                           fontSize: 20,
                           color: Theme.of(context).colorScheme.secondaryContainer,
                         ),
-                        labelText: 'Sprint Planning - June 2070',
+                        labelText: 'Sprint Planning - June 2070 (OPTIONAL)',
                         hintText:
                             'Enter session title (e.g. "Sprint Planning - June 2024")',
                       ),

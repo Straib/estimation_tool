@@ -20,7 +20,7 @@ class CreateSessionHeader extends StatelessWidget implements PreferredSizeWidget
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.symmetric(horizontal: 32),
           child: Text(
-            'ESTIMATION TOOL',
+            'ESTIMATION_TOOL',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
