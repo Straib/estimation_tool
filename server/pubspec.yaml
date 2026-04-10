@@ -15,6 +15,7 @@ dependencies:
 
 dev_dependencies:
   lints: ^6.0.0
+  test: ^1.25.8
 
 executables:
   estimation_tool_server: bin/server.dart
