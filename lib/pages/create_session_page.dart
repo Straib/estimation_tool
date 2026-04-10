@@ -137,7 +137,8 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
                       decoration: InputDecoration(
                         labelStyle: TextStyle(
                           fontSize: 20,
-                          color: Theme.of(context).colorScheme.secondaryContainer,
+                          color:
+                              Theme.of(context).colorScheme.secondaryContainer,
                         ),
                         labelText: 'session-1775767164043997-xxxxxx',
                         hintText: 'Enter session ID to join',
@@ -150,6 +151,10 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
                         height: 64,
                         child: ElevatedButton(
                           onPressed: _isLoading ? null : _joinSession,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                          ),
                           child: const Text(
                             'Join existing session ->',
                             style: TextStyle(fontSize: 16),
@@ -157,7 +162,7 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 50),
                     Text(
                       '----- OR -----',
                       style: ThemeData.dark().textTheme.bodySmall?.copyWith(
@@ -187,11 +192,11 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
                       decoration: InputDecoration(
                         labelStyle: TextStyle(
                           fontSize: 20,
-                          color: Theme.of(context).colorScheme.secondaryContainer,
+                          color:
+                              Theme.of(context).colorScheme.secondaryContainer,
                         ),
                         labelText: 'Sprint Planning - June 2070 (OPTIONAL)',
-                        hintText:
-                            'Enter session title (e.g. "Sprint Planning - June 2024")',
+                        hintText: 'Enter session title',
                       ),
                     ),
                     const SizedBox(height: 10),

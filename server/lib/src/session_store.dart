@@ -48,7 +48,7 @@ class SessionStore {
     return _sessions.remove(sessionId) != null;
   }
 
-  Map<String, dynamic>? addUser({
+  Object addUser({
     required String sessionId,
     required String name,
     String? role,
@@ -56,12 +56,20 @@ class SessionStore {
   }) {
     final session = _sessions[sessionId];
     if (session == null) {
-      return null;
+      return UserWriteResult.sessionNotFound;
+    }
+
+    final normalizedName = name.trim().toLowerCase();
+    final hasDuplicateName = session.users.any(
+      (user) => user.name.trim().toLowerCase() == normalizedName,
+    );
+    if (hasDuplicateName) {
+      return UserWriteResult.duplicateUserName;
     }
 
     final user = _UserEntity(
       id: _newId('user'),
-      name: name,
+      name: name.trim(),
       role: role,
       avatarUrl: avatarUrl,
     );
@@ -156,6 +164,8 @@ class SessionStore {
 enum VoteWriteResult { sessionNotFound, userNotFound, invalidStoryPoint }
 
 enum StatusWriteResult { sessionNotFound, invalidStatus }
+
+enum UserWriteResult { sessionNotFound, duplicateUserName }
 
 class _SessionEntity {
   _SessionEntity({

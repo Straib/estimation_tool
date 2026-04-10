@@ -24,43 +24,53 @@ class UserVoteTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 20,
-      runSpacing: 20,
-      children:
-          StoryPoint.values
-              .map(
-                (point) => InkWell(
-                  borderRadius: BorderRadius.circular(8),
-                  onTap: isDisabled ? null : () => onVote(point),
-                  child: SizedBox(
-                    width: 200,
-                    height: 300,
-                    child: Card(
-                      color: vote?.storyPoint == point
-                          ? Theme.of(context).colorScheme.primary
+    const int columns = 5;
+    const double aspectRatio = 2 / 3;
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final double spacing = constraints.maxWidth * 0.02;
+        final double tileWidth =
+            (constraints.maxWidth - spacing * (columns - 1)) / columns;
+        final double radius = tileWidth * 0.06;
+
+        return GridView.count(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          crossAxisCount: columns,
+          mainAxisSpacing: spacing,
+          crossAxisSpacing: spacing,
+          childAspectRatio: aspectRatio,
+          children: StoryPoint.values.map((point) {
+            final bool isSelected = vote?.storyPoint == point;
+            return InkWell(
+              borderRadius: BorderRadius.circular(radius),
+              onTap: isDisabled ? null : () => onVote(point),
+              child: Card(
+                color: isSelected
+                    ? Theme.of(context).colorScheme.primary
+                    : null,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(radius),
+                ),
+                child: Center(
+                  child: Text(
+                    point.label,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.displayLarge?.copyWith(
+                      fontSize: tileWidth * 0.35,
+                      color: isSelected
+                          ? Theme.of(context).colorScheme.onPrimary
                           : null,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Center(
-                          child: Text(
-                            point.label,
-                            style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                              color: vote?.storyPoint == point
-                                  ? Theme.of(context).colorScheme.onPrimary
-                                  : null,
-                            ),
-                          ),
-                        ),
-                      ),
                     ),
                   ),
                 ),
-              )
-              .toList(),
+              ),
+            );
+          }).toList(),
+        );
+      },
     );
   }
 }

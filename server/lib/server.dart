@@ -83,15 +83,25 @@ Future<void> runServer({String host = '0.0.0.0', int port = 8080}) async {
         avatarUrl: payload['avatarUrl'] as String?,
       );
 
-      if (user == null) {
+      if (user == UserWriteResult.sessionNotFound) {
         return _jsonResponse(
           HttpStatus.notFound,
           <String, dynamic>{'error': 'session not found'},
         );
       }
 
+      if (user == UserWriteResult.duplicateUserName) {
+        return _jsonResponse(
+          HttpStatus.conflict,
+          <String, dynamic>{'error': 'name already in use'},
+        );
+      }
+
       _notificationManager.notifySessionChange(id);
-      return _jsonResponse(HttpStatus.created, <String, dynamic>{'user': user});
+      return _jsonResponse(
+        HttpStatus.created,
+        <String, dynamic>{'user': user as Map<String, dynamic>},
+      );
     })
     ..delete('/sessions/<sessionId>/users/<userId>', (Request request, String sessionId, String userId) {
       final session = store.getSession(sessionId);

@@ -53,7 +53,8 @@ void main() {
       final sessionId = session['id']! as String;
 
       final user = store.addUser(sessionId: sessionId, name: 'Alex');
-      final userId = user!['id']! as String;
+      expect(user, isA<Map<String, dynamic>>());
+      final userId = (user as Map<String, dynamic>)['id']! as String;
 
       store.removeUser(sessionId: sessionId, userId: userId);
       final leftAt = DateTime.now().toUtc();
@@ -69,6 +70,18 @@ void main() {
       );
       expect(expired, contains(sessionId));
       expect(store.getSession(sessionId), isNull);
+    });
+
+    test('rejects duplicate usernames ignoring case and whitespace', () {
+      final store = SessionStore();
+      final session = store.createSession(title: 'Planning');
+      final sessionId = session['id']! as String;
+
+      final first = store.addUser(sessionId: sessionId, name: 'Alex');
+      expect(first, isA<Map<String, dynamic>>());
+
+      final duplicate = store.addUser(sessionId: sessionId, name: '  aLeX  ');
+      expect(duplicate, UserWriteResult.duplicateUserName);
     });
   });
 }
