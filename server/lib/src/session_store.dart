@@ -2,6 +2,8 @@ import 'dart:math';
 
 enum SessionStatus { setup, voting, revealed, closed }
 
+const Duration emptySessionTtl = Duration(minutes: 20);
+
 const Set<String> _storyPoints = <String>{
   '0',
   '1',
@@ -27,13 +29,15 @@ class SessionStore {
   }
 
   Map<String, dynamic> createSession({required String title}) {
+    final now = DateTime.now().toUtc();
     final session = _SessionEntity(
       id: _newId('session'),
       title: title,
-      createdAt: DateTime.now().toUtc(),
+      createdAt: now,
       status: SessionStatus.setup,
       users: <_UserEntity>[],
       votes: <String, _VoteEntity>{},
+      emptySince: now,
     );
 
     _sessions[session.id] = session;
@@ -63,6 +67,7 @@ class SessionStore {
     );
 
     session.users.add(user);
+    session.emptySince = null;
     return user.toJson();
   }
 
@@ -74,8 +79,28 @@ class SessionStore {
 
     session.users.removeWhere((user) => user.id == userId);
     session.votes.remove(userId);
+    if (session.users.isEmpty) {
+      session.emptySince = DateTime.now().toUtc();
+    }
 
     return session.toJson();
+  }
+
+  List<String> purgeExpiredEmptySessions({DateTime? nowUtc}) {
+    final now = nowUtc ?? DateTime.now().toUtc();
+    final expiredSessionIds = _sessions.values
+        .where((session) {
+          final emptySince = session.emptySince;
+          return emptySince != null && now.difference(emptySince) >= emptySessionTtl;
+        })
+        .map((session) => session.id)
+        .toList();
+
+    for (final sessionId in expiredSessionIds) {
+      _sessions.remove(sessionId);
+    }
+
+    return expiredSessionIds;
   }
 
   Object addOrUpdateVote({
@@ -140,6 +165,7 @@ class _SessionEntity {
     required this.status,
     required this.users,
     required this.votes,
+    required this.emptySince,
   });
 
   final String id;
@@ -148,6 +174,7 @@ class _SessionEntity {
   SessionStatus status;
   final List<_UserEntity> users;
   final Map<String, _VoteEntity> votes;
+  DateTime? emptySince;
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{

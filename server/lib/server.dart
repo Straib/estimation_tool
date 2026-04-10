@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:async';
 
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
@@ -13,6 +14,12 @@ final _notificationManager = SessionNotificationManager();
 
 Future<void> runServer({String host = '0.0.0.0', int port = 8080}) async {
   final store = SessionStore();
+  Timer.periodic(const Duration(minutes: 1), (_) {
+    final expiredSessionIds = store.purgeExpiredEmptySessions();
+    for (final sessionId in expiredSessionIds) {
+      _notificationManager.closeAll(sessionId);
+    }
+  });
 
   final app = Router()
     ..get('/health', (Request request) {
