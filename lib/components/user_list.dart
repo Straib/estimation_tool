@@ -14,7 +14,7 @@ class UserList extends StatelessWidget {
     if (session.status == SessionStatus.revealed) {
       return (
         label: vote?.storyPoint.label ?? '-',
-        icon: Icons.visibility,
+        icon: Icons.check_circle,
         backgroundColor: const Color(0xFF2D3449),
         foregroundColor: const Color(0xFFC0C1FF),
       );
@@ -63,7 +63,7 @@ class UserList extends StatelessWidget {
               final vote = session.voteForUser(user.id);
               final voteState = _voteCardState(vote);
               return Padding(
-                padding: const EdgeInsets.all(4.0),
+                padding: const EdgeInsets.all(8.0),
                 child: ListTile(
                   title: Row(
                     children: [
@@ -72,28 +72,44 @@ class UserList extends StatelessWidget {
                       Text(user.name),
                     ],
                   ),
-                  trailing: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
+                  trailing: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      minWidth: 40,
+                      maxWidth: 40,
                     ),
-                    color: voteState.backgroundColor,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12.0,
-                        vertical: 15.0,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
                       ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(voteState.icon, size: 16, color: voteState.foregroundColor),
-                          Text(
-                            voteState.label,
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: voteState.foregroundColor,
-                            ),
+                      color: voteState.backgroundColor,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0,
+                          vertical: 15.0,
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (session.status != SessionStatus.revealed)
+                              Icon(
+                                voteState.icon,
+                                size: 16,
+                                color: voteState.foregroundColor,
+                              ),
+                              Text(
+                                voteState.label,
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: voteState.foregroundColor,
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
