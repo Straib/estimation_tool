@@ -4,6 +4,7 @@ import 'package:estimation_tool/routes/routes.dart';
 import 'package:estimation_tool/services/session_api.dart';
 import 'package:estimation_tool/theme/obsidian_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:estimation_tool/components/footer.dart';
 
 @RoutePage()
 class CreateSessionPage extends StatefulWidget {
@@ -108,6 +109,7 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CreateSessionHeader(),
+      bottomNavigationBar: const Footer(),
       body: SafeArea(
         child: Center(
           child: Card(

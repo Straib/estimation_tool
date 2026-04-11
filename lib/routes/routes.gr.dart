@@ -27,6 +27,22 @@ class CreateSessionRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [ImpressumPage]
+class ImpressumRoute extends PageRouteInfo<void> {
+  const ImpressumRoute({List<PageRouteInfo>? children})
+    : super(ImpressumRoute.name, initialChildren: children);
+
+  static const String name = 'ImpressumRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ImpressumPage();
+    },
+  );
+}
+
+/// generated route for
 /// [SessionPage]
 class SessionRoute extends PageRouteInfo<SessionRouteArgs> {
   SessionRoute({
