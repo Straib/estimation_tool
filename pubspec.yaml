@@ -7,6 +7,7 @@ environment:
   sdk: ^3.7.2
 
 dependencies:
+  after_layout: ^1.2.0
   auto_route: ^11.1.0
   clipboard: ^3.0.14
   fl_chart: ^1.2.0

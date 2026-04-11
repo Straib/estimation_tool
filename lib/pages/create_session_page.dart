@@ -1,10 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:estimation_tool/components/create_session_header.dart';
 import 'package:estimation_tool/routes/routes.dart';
+import 'package:estimation_tool/services/cookie_notice_store.dart';
 import 'package:estimation_tool/services/session_api.dart';
 import 'package:estimation_tool/theme/obsidian_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:estimation_tool/components/footer.dart';
+import 'package:after_layout/after_layout.dart';
 
 @RoutePage()
 class CreateSessionPage extends StatefulWidget {
@@ -14,8 +16,10 @@ class CreateSessionPage extends StatefulWidget {
   State<CreateSessionPage> createState() => _CreateSessionPageState();
 }
 
-class _CreateSessionPageState extends State<CreateSessionPage> {
+class _CreateSessionPageState extends State<CreateSessionPage>
+    with AfterLayoutMixin<CreateSessionPage> {
   final SessionApi _sessionApi = SessionApi();
+  final CookieNoticeStore _cookieNoticeStore = createCookieNoticeStore();
   final TextEditingController _sessionIdController = TextEditingController();
   final TextEditingController _sessionTitleController = TextEditingController();
   bool _isLoading = false;
@@ -25,6 +29,39 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
     _sessionIdController.dispose();
     _sessionTitleController.dispose();
     super.dispose();
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    _maybeShowCookieNotice();
+  }
+
+  Future<void> _maybeShowCookieNotice() async {
+    final dismissed = await _cookieNoticeStore.isDismissed();
+    if (!mounted || dismissed) {
+      return;
+    }
+
+    _showToast(context);
+  }
+
+  void _showToast(BuildContext context) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: const Text('We use cookies, ok?'),
+        action: SnackBarAction(
+          label: 'OK',
+          onPressed: () async {
+            await _cookieNoticeStore.dismiss();
+            if (!mounted) {
+              return;
+            }
+            scaffold.hideCurrentSnackBar();
+          },
+        ),
+      ),
+    );
   }
 
   Future<void> _joinSession() async {
