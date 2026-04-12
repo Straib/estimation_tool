@@ -22,7 +22,7 @@ class ImpressumPage extends StatelessWidget {
       body: const Padding(
         padding: EdgeInsets.all(16.0),
         child: Text(
-          'Angaben gemäß § 5 TMG:\n\n'
+          'Angaben gemäß § 5 DDG:\n\n'
           'Robin Pösselt\n'
           'Grubetstr. 40\n'
           '86551 Aichach\n\n'
